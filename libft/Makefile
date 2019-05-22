@@ -23,6 +23,7 @@ FILE = ft_strlcat.c\
        ft_memcmp.c\
        ft_strlen.c\
        ft_strdup.c\
+       ft_strndup.c\
        ft_strcpy.c\
        ft_strncpy.c\
        ft_strcat.c\
@@ -71,7 +72,6 @@ FILE = ft_strlcat.c\
        ft_lstadd.c\
        ft_lstiter.c\
        ft_lstmap.c\
-       NAME = test_gnl
 
 INC = -I includes
 
@@ -87,11 +87,8 @@ RM = rm -f
 
 all: $(NAME)
 
-$(NAME) : $(LIB) $(OBJ)
-	$(CC) -o $@ $(OBJ) -L libft/ -lft
-
-$(LIB) :
-	make -C libft/ all
+$(NAME) : $(OBJ)
+	ar rs $@ $(OBJ)
 
 objs/%.o: %.c
 	@mkdir -p objs
