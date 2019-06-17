@@ -6,7 +6,7 @@
 #    By: czhang <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 19:51:13 by czhang            #+#    #+#              #
-#    Updated: 2018/11/23 09:15:30 by czhang           ###   ########.fr        #
+#    Updated: 2019/06/17 02:41:06 by czhang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = fdf
 LIB = libft/libft.a
 
 FILE =	main.c\
-	parse.c\
+#	parse.c\
 	coord.c\
 	draw.c\
 	tab_type.c\
@@ -36,7 +36,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME) : $(LIB) $(OBJ)
-	$(CC) -o $@ $(OBJ) -L libft/ -lft -lmlx -lXext -lX11
+	$(CC) -o $@ $(OBJ) -L libft/ -lft -lmlx -framework OpenGL -framework Appkit
 
 $(LIB) :
 	make -C libft/ all

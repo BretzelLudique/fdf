@@ -40,11 +40,7 @@ char			**ft_strsplit(char const *s, char c)
 			while (s[i + len_word] && s[i + len_word] != c)
 				len_word++;
 			if (!(tab[j++] = ft_strsub(s, i, len_word)))
-			{
 				ptitfree(tab, j);
-				ft_memdel((void**)tab);
-				return (NULL);
-			}
 			i += len_word;
 		}
 	}
