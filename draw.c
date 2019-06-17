@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:59:29 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/17 04:18:10 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/17 05:53:29 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	draw_pixel(int x, int y, t_mlx r)
 	t_img img;
 
 	img = r.img;
-	img.img_str[4 * (x +img.size_line * y)] = -1;
+	img.img_str[4 * x + img.size_line * y] = (char) 255;
 	return (1);
 }
 
