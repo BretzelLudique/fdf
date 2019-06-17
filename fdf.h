@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/17 02:46:42 by czhang            #+#    #+#             */
+/*   Updated: 2019/06/17 04:25:39 by czhang           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
 # include <stdio.h>
-# include "minilibx/mlx.h"
+# include "mlx.h"
 # include "libft/libft.h"
 # include "get_next_line.h"
 # include <fcntl.h>
@@ -41,7 +53,7 @@ t_tab	*read_file(char *filename);
 void	ptit_free(t_tab *tab);
 t_tab	*new_tab(void **data, int x_size, int y_size);
 t_tab	*tab_iso(t_tab *tab_int);
-int		draw(t_tab *tab);
-t_mlx	get_a();
+int		draw(t_tab *tab, t_mlx r);
+t_mlx	get_r();
 
 #endif

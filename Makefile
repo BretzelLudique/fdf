@@ -6,7 +6,7 @@
 #    By: czhang <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 19:51:13 by czhang            #+#    #+#              #
-#    Updated: 2019/06/17 02:41:06 by czhang           ###   ########.fr        #
+#    Updated: 2019/06/17 04:25:49 by czhang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ NAME = fdf
 LIB = libft/libft.a
 
 FILE =	main.c\
-#	parse.c\
-	coord.c\
-	draw.c\
-	tab_type.c\
-	get_next_line.c\
+		draw.c\
+		parse.c\
+		tab_type.c\
+		coord.c\
+		get_next_line.c\
 
 INC = -I libft/includes
 
@@ -27,7 +27,7 @@ SRC = $(FILE:%=%)
 
 OBJ = $(FILE:%.c=objs/%.o)
 
-#FLAG = -Wall -Werror -Wextra
+FLAG = -Wall -Werror -Wextra
 
 CC = gcc $(FLAG) $(INC)
 

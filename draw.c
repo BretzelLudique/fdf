@@ -1,14 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/16 22:59:29 by czhang            #+#    #+#             */
+/*   Updated: 2019/06/17 04:18:10 by czhang           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-static int	draw_pixel(int x, int y, int color)
+static int	draw_pixel(int x, int y, t_mlx r)
 {
-	t_mlx	a;
+	t_img img;
 
-
-	if (!color)
-		color = 200;
-	a = get_a();
-	return (mlx_pixel_put(a.mlx_ptr, a.win_ptr, x, y, color));
+	img = r.img;
+	img.img_str[4 * (x +img.size_line * y)] = -1;
+	return (1);
 }
 
 /*
@@ -40,7 +50,7 @@ static int	draw_once(t_coord a, t_coord b)
 }
 */
 
-static int	draw_once(t_coord a, t_coord b)
+static int	draw_once(t_coord a, t_coord b, t_mlx r)
 {
 	int		x;
 	int		y;
@@ -50,34 +60,36 @@ static int	draw_once(t_coord a, t_coord b)
 	m = (double) (b.y - a.y) / (b.x - a.x);
 	p = b.y - m *a.x;
 	x = a.x;
-	draw_pixel(a.x, a.y, 0);
+	draw_pixel(a.x, a.y, r);
 	while (++x <= b.x)
 	{
 		y = (int) (m * x + p);
-		draw_pixel(x, y, 0);
+		draw_pixel(x, y, r);
 	}
 	return (1);
 }
 
-static int	draw_y(t_coord a, t_coord b)
+/*
+static int	draw_y(t_coord a, t_coord b, t_mlx r)
 {
 	int	y;
 
 	y = a.y;
-	draw_pixel(a.x, y, 0);
+	draw_pixel(a.x, y, r);
 	while (++y <= b.y)
-		draw_pixel(a.x, y, 0);
+		draw_pixel(a.x, y, r);
 	return (1);
 }
+*/
 
-static int	draw_segment(t_coord a, t_coord b)
+static int	draw_segment(t_coord a, t_coord b, t_mlx r)
 {
-	draw_once(a, b);
-	draw_once(b, a);
+	draw_once(a, b, r);
+	draw_once(b, a, r);
 	return (1);
 }
 
-int			draw(t_tab *tab)
+int			draw(t_tab *tab, t_mlx r)
 {
 	int		x;
 	int		y;
@@ -86,19 +98,17 @@ int			draw(t_tab *tab)
 	coord = (t_coord **)tab->data;
 	y = 0;
 	while (++y < tab->x_size)
-	{
-		draw_segment(coord[0][y], coord[0][y - 1]);
-	}
+		draw_segment(coord[0][y], coord[0][y - 1], r);
 	x = 0;
 	while (++x < tab->y_size)
-		draw_segment(coord[x][0], coord[x - 1][0]);
+		draw_segment(coord[x][0], coord[x - 1][0], r);
 	while (--x)
 	{
 		y = tab->x_size;
 		while (--y)
 		{
-			draw_segment(coord[x][y - 1], coord[x][y]);
-			draw_segment(coord[x - 1][y], coord[x][y]);
+			draw_segment(coord[x][y - 1], coord[x][y], r);
+			draw_segment(coord[x - 1][y], coord[x][y], r);
 		}
 	}
 	return (1);
