@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:46:42 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/17 04:25:39 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/19 04:49:08 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_coord
 typedef struct	s_tab
 {
 	void	**data;
-	int		x_size;
+	int		x_size; // taille exacte
 	int		y_size;
 }				t_tab;
 

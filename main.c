@@ -6,11 +6,13 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:51:07 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/17 05:52:33 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/19 08:06:01 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+int         draw_segment(t_coord a, t_coord b, t_mlx r);
 
 t_img	create_img(t_mlx r)
 {
@@ -29,6 +31,37 @@ t_mlx	create_mlx()
 	r.win_ptr = mlx_new_window(r.mlx_ptr, 800, 600, "TEST");
 	r.img = create_img(r);
 	return (r);
+}
+
+void	print_coord(t_tab *tab)
+{
+	t_coord **coord;
+	int		x;
+	int		y;
+
+	coord = (t_coord **)tab->data;
+	y = -1;
+	while (++y < tab->y_size)
+	{
+		x = -1;
+		while (++x < tab->x_size)
+		{
+			ft_putstr("(");
+			ft_putnbr(coord[y][x].x);
+			ft_putstr("; ");
+			ft_putnbr(coord[y][x].y);
+			ft_putstr(")  ");
+		}
+		ft_putchar('\n');
+	}
+}
+
+void	truc(char *nom_var, int var_aff)
+{
+	ft_putstr(nom_var);
+	ft_putstr(" = ");
+	ft_putnbr(var_aff);
+	ft_putendl("");
 }
 
 int		test(int ac, char **av)
@@ -53,11 +86,11 @@ int		main(int ac, char **av)
 	if (!(tab = read_file(av[1])) || (!(iso = tab_iso(tab))))
 		return (-1);
 	r = create_mlx();
-	ft_putnbr(r.img.size_line);
-	ft_putendl("");
 	draw(iso, r);
+	truc("x_size", iso->x_size);
+	truc("y_size", iso->y_size);
+	print_coord(iso);
 	mlx_put_image_to_window(r.mlx_ptr, r.win_ptr, r.img.img_ptr, 0, 0);
-	ft_putendl("DRAW OK???");
 	mlx_loop(r.mlx_ptr);
 	return (0);
 }

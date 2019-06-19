@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   coord.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/19 05:16:15 by czhang            #+#    #+#             */
+/*   Updated: 2019/06/19 08:13:37 by czhang           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 #include <math.h>
 
@@ -5,7 +17,7 @@ static t_coord	get_iso(int x, int y, int z)
 {
 	t_coord	coord;
 
-	coord.x = (71 * (x - y)) / 5 + 220;
+	coord.x = (71 * (x - y)) / 5 + 280;
 	coord.y = ((-41 * (x + y) + 82 * z) / 5) + 420;
 	return (coord);
 }
@@ -44,13 +56,13 @@ static int		add_line_iso(t_tab *iso, int y, t_tab *tint)
 
 	if (!(line_iso = (t_coord *)malloc(sizeof(t_coord) * tint->x_size)))
 	{
-		perror("malloc tab_iso->data[x]");
+		perror("malloc tab_iso->data[y]");
 		return (0);
 	}
 	line_int = (int *)tint->data[y];
 	x = -1;
 	while (++x < tint->x_size)
-		line_iso[x] = get_iso(x, -y, line_int[x]);
+		line_iso[x] = get_iso(x, y, line_int[x]);
 	iso->data[y] = line_iso;
 	return (1);
 }
