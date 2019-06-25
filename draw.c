@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:59:29 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/19 08:11:29 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/25 18:13:51 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int	draw_once(t_coord a, t_coord b)
 }
 */
 
+
+/*
 int			draw_once(t_coord a, t_coord b, t_mlx r)
 {
 	int		dx;
@@ -61,7 +63,7 @@ int			draw_once(t_coord a, t_coord b, t_mlx r)
 	int		e;
 	t_coord	save_a;
 
-	save_a.x = a.x;
+	save_a.x = a.x; //probablement inutile
 	save_a.y = a.y;
 	e = b.x - a.x;
 	dx = 2 * e;
@@ -70,7 +72,8 @@ int			draw_once(t_coord a, t_coord b, t_mlx r)
 	{
 		draw_pixel(a.x, a.y, r);
 		a.x++;
-		if ((e = e - dy) <= 0)
+		e = e - dy;
+		if (e <= 0)
 		{
 			a.y++;
 			e += dx;
@@ -80,6 +83,90 @@ int			draw_once(t_coord a, t_coord b, t_mlx r)
 	a.x = save_a.x;
 	a.y = save_a.y;
 	return (1);
+}
+*/
+
+int			draw_once(t_coord a, t_coord b, t_mlx r)
+{
+	int		dx;
+	int		dy;
+	int		e;
+
+	if (dx = b.x - a.x)
+		if (dx > 0)
+			if ((dy = b.y - a.y))
+				if (dy > 0)
+				{
+					if (dx >= dy)
+					{
+						e = dx;
+						dx = 2 * e;
+						dy = dy * 2;
+						while (a.x <= b.x)
+						{
+							draw_pixel(a.x++, a.y, r);
+							if ((e -= dy) < 0)
+							{
+								a.y++;
+								e += dx;
+							}
+						}
+					}
+					else
+					{
+						e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						while (a.y <= b.y)
+						{
+							draw_pixel(a.x, a.y++, r);
+							if ((e -= dx) < 0)
+							{
+								a.x++;
+								e += dy;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (dx >= -dy)
+					{
+						e = dx;
+						dx = e * 2;
+						dy = dy * 2;
+						while (a.x <= b.x)
+						{
+							draw_pixel(a.x++, a.y, r);
+							if ((e += dy) < 0)
+							{
+								a.y++;
+								e += dx;
+							}
+						}
+					}
+					else
+					{
+						e = dy;
+						dy = e * 2;
+						dx = dx * 2;
+						while (a.y <= b.y)
+						{
+							draw_pixel(a.x, a.y++, r);
+							if ((e += dx) < 0)
+							{
+								a.x++;
+								e += dy;
+							}
+						}
+					}
+				}
+			}
+
+
+
+	return (1);
+
 }
 
 /*

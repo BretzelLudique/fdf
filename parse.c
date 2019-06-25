@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:19:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/17 04:19:16 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/25 13:53:37 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static int	add_line_int(t_tab *tab, int i, char **tabchar)
 	while (--x_size >= 0)
 		lineint[x_size] = ft_atoi(tabchar[x_size]);
 	tab->data[i] = lineint;
+	/*
+	x_size = -1;
+	while (++x_size < tab->x_size)
+	{
+		ft_putnbr(lineint[x_size]);
+		ft_putstr("  ");
+	}
+	ft_putendl("");
+	*/
 	return (1);
 }
 

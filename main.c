@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:51:07 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/19 08:06:01 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/25 15:59:53 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,18 @@ int		test(int ac, char **av)
 	return (1);
 }
 
+void	test_draw(t_mlx r)
+{
+	t_coord	a;
+	t_coord	b;
+
+	a.x = 200;
+	a.y = 400;
+	b.x = 500;
+	b.y = 500;
+	draw_segment(a, b, r);
+}
+
 int		main(int ac, char **av)
 {
 	t_mlx	r;
@@ -86,10 +98,11 @@ int		main(int ac, char **av)
 	if (!(tab = read_file(av[1])) || (!(iso = tab_iso(tab))))
 		return (-1);
 	r = create_mlx();
-	draw(iso, r);
-	truc("x_size", iso->x_size);
-	truc("y_size", iso->y_size);
-	print_coord(iso);
+//	draw(iso, r);
+//	truc("x_size", iso->x_size);
+//	truc("y_size", iso->y_size);
+//	print_coord(iso);
+	test_draw(r);
 	mlx_put_image_to_window(r.mlx_ptr, r.win_ptr, r.img.img_ptr, 0, 0);
 	mlx_loop(r.mlx_ptr);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/19 05:16:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/19 08:13:37 by czhang           ###   ########.fr       */
+/*   Updated: 2019/06/25 14:49:35 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,18 @@ static int		add_line_iso(t_tab *iso, int y, t_tab *tint)
 	line_int = (int *)tint->data[y];
 	x = -1;
 	while (++x < tint->x_size)
-		line_iso[x] = get_iso(x, y, line_int[x]);
+		line_iso[x] = get_iso(x, y, line_int[x]); //attention -z a la place de z
 	iso->data[y] = line_iso;
+/*(	x = -1;
+	while (++x < tint->x_size)
+	{
+		ft_putstr("(");
+		ft_putnbr(line_iso[x].x);
+		ft_putstr(", ");
+		ft_putnbr(line_iso[x].y);
+		ft_putstr(")   ");
+	}
+	ft_putendl("");*/
 	return (1);
 }
 
