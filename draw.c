@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/16 22:59:29 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/25 18:13:51 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/02 01:51:50 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,190 +14,89 @@
 
 static int	draw_pixel(int x, int y, t_mlx r)
 {
-	t_img img;
-	char	*c;
-	int	*i;
+	int		*i;
 
-	img = r.img;
-	c = img.img_str + ( 4 * x + img.size_line  * y) ;
-	i = (int *)c;
+	i = (int *)(r.img.img_str + 4 * x + r.img.size_line * y);
 	*i = 0xffffff;
 	return (1);
 }
 
-/*
-static int	draw_once(t_coord a, t_coord b)
+static int	draw_x(t_coord a, t_coord b, t_mlx r)
 {
-	int	dp;
-	int	x;
-	int	y;
+	int	dx;
+	int	dy;
+	int	e;
 
-	x = a.x;
-	y = a.y;
-	a.x = b.x - a.x;
-	a.y = b.y - a.y;
-	dp = 2 * a.y - a.x;
-	draw_pixel(x, y, 0);
-	while (x <= b.x)
-	{
-		if (dp <= 0)
-			dp += 2 * a.y;
-		else
-		{
-			dp += 2 * (a.y - a.x);
-			y++;
-		}
-		x++;
-		draw_pixel(x, y, 0);
-	}
-	return (1);
-}
-*/
-
-
-/*
-int			draw_once(t_coord a, t_coord b, t_mlx r)
-{
-	int		dx;
-	int		dy;
-	int		e;
-	t_coord	save_a;
-
-	save_a.x = a.x; //probablement inutile
-	save_a.y = a.y;
 	e = b.x - a.x;
 	dx = 2 * e;
-	dy = (b.y - a.y) * 2;
+	dy = 2 * (b.y - a.y);
+	if (dy == 0)
+	{
+		while (a.x <= b.x)
+			draw_pixel(a.x++, a.y, r);
+		return (1);
+	}
 	while (a.x <= b.x)
 	{
-		draw_pixel(a.x, a.y, r);
-		a.x++;
-		e = e - dy;
-		if (e <= 0)
+		draw_pixel(a.x++, a.y, r);
+		e = dy > 0 ? e - dy : e + dy;
+		if (e < 0)
 		{
-			a.y++;
+			a.y = dy > 0 ? a.y + 1 : a.y - 1;
 			e += dx;
 		}
 	}
-	draw_pixel(b.x, b.y, r);
-	a.x = save_a.x;
-	a.y = save_a.y;
 	return (1);
 }
-*/
 
-int			draw_once(t_coord a, t_coord b, t_mlx r)
+static int	draw_y(t_coord a, t_coord b, t_mlx r)
+{
+	int	dx;
+	int	dy;
+	int	e;
+
+	e = b.y - a.y;
+	dx = 2 * (b.x - a.x);
+	dy = 2 * e;
+	if (dx == 0)
+	{
+		while (a.y <= b.y)
+			draw_pixel(a.x, a.y++, r);
+		return (1);
+	}
+	while (a.y <= b.y)
+	{
+		draw_pixel(a.x, a.y++, r);
+		e = dx > 0 ? e - dx : e + dx;
+		if (e < 0)
+		{
+			a.x = dx > 0 ? a.x + 1 : a.x - 1;
+			e += dy;
+		}
+	}
+	return (1);
+}
+
+static int	draw_segment(t_coord a, t_coord b, t_mlx r)
 {
 	int		dx;
 	int		dy;
-	int		e;
 
-	if (dx = b.x - a.x)
-		if (dx > 0)
-			if ((dy = b.y - a.y))
-				if (dy > 0)
-				{
-					if (dx >= dy)
-					{
-						e = dx;
-						dx = 2 * e;
-						dy = dy * 2;
-						while (a.x <= b.x)
-						{
-							draw_pixel(a.x++, a.y, r);
-							if ((e -= dy) < 0)
-							{
-								a.y++;
-								e += dx;
-							}
-						}
-					}
-					else
-					{
-						e = dy;
-						dy = e * 2;
-						dx = dx * 2;
-						while (a.y <= b.y)
-						{
-							draw_pixel(a.x, a.y++, r);
-							if ((e -= dx) < 0)
-							{
-								a.x++;
-								e += dy;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (dx >= -dy)
-					{
-						e = dx;
-						dx = e * 2;
-						dy = dy * 2;
-						while (a.x <= b.x)
-						{
-							draw_pixel(a.x++, a.y, r);
-							if ((e += dy) < 0)
-							{
-								a.y++;
-								e += dx;
-							}
-						}
-					}
-					else
-					{
-						e = dy;
-						dy = e * 2;
-						dx = dx * 2;
-						while (a.y <= b.y)
-						{
-							draw_pixel(a.x, a.y++, r);
-							if ((e += dx) < 0)
-							{
-								a.x++;
-								e += dy;
-							}
-						}
-					}
-				}
-			}
-
-
-
-	return (1);
-
-}
-
-/*
-static int	draw_y(t_coord a, t_coord b, t_mlx r)
-{
-	int	y;
-
-	y = a.y;
-	draw_pixel(a.x, y, r);
-	while (++y <= b.y)
-		draw_pixel(a.x, y, r);
-	return (1);
-}
-*/
-
-int			draw_segment(t_coord a, t_coord b, t_mlx r)
-{
-	ft_putendl("on trace");
-	ft_putstr("a.x = ");
-	ft_putnbr(a.x);
-	ft_putstr("  a.y = ");
-	ft_putnbr(a.y);
-	ft_putendl("");
-	ft_putstr("b.x = ");
-	ft_putnbr(b.x);
-	ft_putstr("  b.y = ");
-	ft_putnbr(b.y);
-	ft_putendl("\n");
-	draw_once(a, b, r);
-	draw_once(b, a, r);
-	return (1);
+	if (!(dx = b.x - a.x))
+		return (((dy = b.y - a.y) > 0) ? draw_y(a, b, r) : draw_y(b, a, r));
+	if (!(dy = b.y - a.y))
+		return (dx > 0 ? draw_x(a, b, r) : draw_x(b, a, r));
+	if (dx > 0)
+	{
+		if (dy > 0)
+			return (dx >= dy ? draw_x(a, b, r) : draw_y(a, b, r));
+		else
+			return (dx >= -dy ? draw_x(a, b, r) : draw_y(b, a, r));
+	}
+	if (dy > 0)
+		return ((-dx >= dy) ? draw_x(b, a, r) : draw_y(a, b, r));
+	else
+		return ((dx <= dy) ? draw_x(b, a, r) : draw_y(a, b, r));
 }
 
 int			draw(t_tab *tab, t_mlx r)
@@ -205,8 +104,6 @@ int			draw(t_tab *tab, t_mlx r)
 	int		x;
 	int		y;
 	t_coord	**coord;
-//	t_coord	a;
-//	t_coord b;
 
 	coord = (t_coord **)tab->data;
 	y = -1;
@@ -215,16 +112,11 @@ int			draw(t_tab *tab, t_mlx r)
 		x = -1;
 		while (++x < tab->x_size)
 		{
-			if (y)
+			if (y && x != 0)
 				draw_segment(coord[y - 1][x], coord[y][x], r);
-			if (x)
+			if (x && y != tab->y_size - 1)
 				draw_segment(coord[y][x - 1], coord[y][x], r);
 		}
 	}
-//	a.x = 0;
-//	a.y = 600;
-//	b.x = 799;
-//	b.y = 0;
-//	draw_segment(a, b, r);
 	return (1);
 }

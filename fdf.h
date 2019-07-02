@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:46:42 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/19 04:49:08 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/02 07:10:08 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include "libft/libft.h"
 # include "get_next_line.h"
 # include <fcntl.h>
+
+# define WIDTH 800
+# define HEIGHT 600
 
 typedef struct	s_img
 {
@@ -48,12 +51,13 @@ typedef struct	s_tab
 	int		y_size;
 }				t_tab;
 
-int		main(int ac, char **av);
-t_tab	*read_file(char *filename);
+int		read_file(t_tab *tab, char *filename);
 void	ptit_free(t_tab *tab);
 t_tab	*new_tab(void **data, int x_size, int y_size);
-t_tab	*tab_iso(t_tab *tab_int);
+int		substract_t_coord(t_tab *tab, t_coord min);
+int		divide_t_coord(t_tab *tab, int value);
+int		tab_iso(t_tab *tab_iso, t_tab *tab_int);
 int		draw(t_tab *tab, t_mlx r);
-t_mlx	get_r();
+int		interrupt(int key, void *p);
 
 #endif

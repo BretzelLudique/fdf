@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:19:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/06/25 13:53:37 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/02 03:07:12 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static int	add_line_int(t_tab *tab, int i, char **tabchar)
 	int	x_size;
 
 	if (!tabchar)
-	{
-		perror("malloc tabchar");
 		return (0);
-	}
 	x_size = 0;
 	while (tabchar[x_size])
 		x_size++;
@@ -29,26 +26,14 @@ static int	add_line_int(t_tab *tab, int i, char **tabchar)
 		tab->x_size = x_size;
 	if (tab->x_size != x_size)
 	{
-		perror("fichier non valide : x_size non valide");
+		ft_putstr_fd("every line needs to have the same size in ", 2);
 		return (0);
 	}
-	if(!(lineint = (int *)malloc(sizeof(int) * (x_size))))
-	{
-		perror("malloc lineint");
+	if (!(lineint = (int *)malloc(sizeof(int) * (x_size))))
 		return (0);
-	}
 	while (--x_size >= 0)
 		lineint[x_size] = ft_atoi(tabchar[x_size]);
 	tab->data[i] = lineint;
-	/*
-	x_size = -1;
-	while (++x_size < tab->x_size)
-	{
-		ft_putnbr(lineint[x_size]);
-		ft_putstr("  ");
-	}
-	ft_putendl("");
-	*/
 	return (1);
 }
 
@@ -60,7 +45,7 @@ static int	get_n_lines(char *filename)
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		perror("open fd");
+		ft_putstr_fd("error open in ", 2);
 		return (0);
 	}
 	n = 0;
@@ -71,36 +56,29 @@ static int	get_n_lines(char *filename)
 	return (n);
 }
 
-t_tab			*reterr(char const *s, t_tab *tab)
-{
-	ptit_free(tab);
-	perror(s);
-	return (0);
-}
-
-t_tab			*read_file(char *filename)
+int			read_file(t_tab *tab, char *filename)
 {
 	char	*line;
-	t_tab	*tab;
 	int		y;
 	int		fd;
 
-	if (!(tab = new_tab(0, 0, 0)))
-		return (reterr("malloc tab", tab));
 	if (!(tab->y_size = get_n_lines(filename)))
-		return (reterr("tab->y_size", tab));
+		return (0);
 	if (!(tab->data = (void **)malloc(sizeof(int *) * (tab->y_size))))
-		return (reterr("malloc tab->data", tab));
+		return (0);
 	if ((fd = open(filename, O_RDONLY)) < 0)
-		return (reterr("open fd", tab));
+		return (0);
 	y = 0;
 	while (get_next_line(fd, &line))
 		if (!(add_line_int(tab, y++, ft_strsplit(line, ' '))))
 		{
-			tab->y_size = y;
-			return (reterr("malloc tab->data[i]", tab));
+			tab->y_size = y - 1;
+			if (line)
+				free(line);
+			close(fd);
+			return (0);
 		}
 	free(line);
 	close(fd);
-	return (tab);
+	return (1);
 }
