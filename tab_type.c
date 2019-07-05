@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:21:54 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/02 05:52:17 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/05 02:24:48 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int		substract_t_coord(t_tab *tab, t_coord min)
 	return (1);
 }
 
-int		divide_t_coord(t_tab *tab, int coeff)
+int		divide_t_coord(t_tab *tab, double coeff)
 {
 	int		x;
 	int		y;

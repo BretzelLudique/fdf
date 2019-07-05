@@ -6,7 +6,7 @@
 #    By: czhang <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 19:51:13 by czhang            #+#    #+#              #
-#    Updated: 2019/07/02 06:22:34 by czhang           ###   ########.fr        #
+#    Updated: 2019/07/05 02:29:55 by czhang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ LIB = libft/libft.a
 
 FILE =	main.c\
 		key_esc.c\
+		resize.c\
 		draw.c\
 		parse.c\
 		tab_type.c\

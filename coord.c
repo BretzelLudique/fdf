@@ -5,23 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/19 05:16:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/02 04:13:55 by czhang           ###   ########.fr       */
+/*   Created: 2019/07/05 02:24:32 by czhang            #+#    #+#             */
+/*   Updated: 2019/07/05 02:26:50 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <math.h>
 
-static t_coord	get_iso(int x, int y, int z)
+static t_coord	get_coord(int x, int y, int z, double angle[2])
 {
-	t_coord	coord;
+	t_coord coord;
 
-	coord.x = (71 * (x - y)) / 5;
-	coord.y = ((-41 * (x + y) + 82 * z) / 5);
+	coord.x = 20 * (cos(angle[0]) * (double)x - sin(angle[0]) * (double)y);
+	coord.y = 20 * (-sin(angle[0]) * sin(angle[1]) * (double)x - cos(angle[0])
+			* sin(angle[1]) * (double)y + cos(angle[1]) * (double)z);
 	return (coord);
 }
 
-static int		add_line_iso(t_tab *iso, int y, t_tab *tint)
+static int		add_line_coord(t_tab *iso, int y, t_tab *tint, double angle[2])
 {
 	t_coord	*line_iso;
 	int		*line_int;
@@ -32,12 +34,12 @@ static int		add_line_iso(t_tab *iso, int y, t_tab *tint)
 	line_int = (int *)tint->data[y];
 	x = -1;
 	while (++x < tint->x_size)
-		line_iso[x] = get_iso(x, -y, -line_int[x]);
+		line_iso[x] = get_coord(x, -y, -line_int[x], angle);
 	iso->data[y] = line_iso;
 	return (1);
 }
 
-int				tab_iso(t_tab *tab_iso, t_tab *tint)
+int				tab_coord(t_tab *tab_iso, t_tab *tint, double angle[2])
 {
 	int		y;
 
@@ -47,7 +49,7 @@ int				tab_iso(t_tab *tab_iso, t_tab *tint)
 		return (0);
 	y = 0;
 	while (y < tint->y_size)
-		if (!(add_line_iso(tab_iso, y++, tint)))
+		if (!(add_line_coord(tab_iso, y++, tint, angle)))
 		{
 			tab_iso->y_size = y;
 			return (0);
