@@ -6,12 +6,11 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:16:53 by czhang            #+#    #+#             */
-/*   Updated: 2019/02/07 14:28:55 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/05 02:36:36 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static int		fill_line(char **line, char **abuffer, int len_fin)
 {

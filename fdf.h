@@ -6,14 +6,13 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:46:42 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 01:29:59 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/05 02:35:34 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <stdio.h>
 # include "mlx.h"
 # include "libft/libft.h"
 # include "get_next_line.h"

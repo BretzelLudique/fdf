@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:22:13 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:28:28 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/05 02:37:52 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		reduce_coord(t_tab *iso, t_coord range[2])
 {
 	double coeff;
 
-	ft_putendl("REDUCE");
 	coeff = (double)range[1].x / WIDTH;
 	if (coeff < (double)range[1].y / HEIGHT)
 		coeff = (double)range[1].y / HEIGHT;
@@ -57,7 +56,6 @@ int		extend_coord(t_tab *iso, t_coord range[2])
 {
 	double	coeff;
 
-	ft_putendl("LOL");
 	coeff = (double)WIDTH / range[1].x;
 	if (coeff < (double)HEIGHT / range[1].y)
 		coeff = (double)HEIGHT / range[1].y;

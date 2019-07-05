@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:19:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/02 03:07:12 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/05 02:58:49 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	add_line_int(t_tab *tab, int i, char **tabchar)
 		tab->x_size = x_size;
 	if (tab->x_size != x_size)
 	{
-		ft_putstr_fd("every line needs to have the same size in ", 2);
+		ft_putendl_fd("Found wrong line length. Exiting.", 2);
 		return (0);
 	}
 	if (!(lineint = (int *)malloc(sizeof(int) * (x_size))))
@@ -45,7 +45,8 @@ static int	get_n_lines(char *filename)
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		ft_putstr_fd("error open in ", 2);
+		ft_putstr_fd("No file ", 2);
+		ft_putendl_fd(filename, 2);
 		return (0);
 	}
 	n = 0;
@@ -53,6 +54,8 @@ static int	get_n_lines(char *filename)
 		n++;
 	close(fd);
 	free(line);
+	if (n == 0)
+		ft_putendl_fd("No data found.", 2);
 	return (n);
 }
 
