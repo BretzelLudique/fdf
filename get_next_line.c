@@ -6,11 +6,12 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 15:16:53 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:36:36 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/16 01:16:40 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "stdio.h"
 
 static int		fill_line(char **line, char **abuffer, int len_fin)
 {
@@ -40,24 +41,24 @@ static int		fill_line(char **line, char **abuffer, int len_fin)
 	return (0);
 }
 
-static int		ft_truc(char **line, char **abuffer)
+static int		ft_truc(char **line, char **abuf)
 {
 	char	*dup_line;
-	int		len_fin;
+	int		l;
 
-	len_fin = 0;
-	while ((*abuffer)[len_fin] != '\0' && (*abuffer)[len_fin] != '\n')
-		len_fin++;
-	if (fill_line(line, abuffer, len_fin) == -1)
+	l = 0;
+	while ((*abuf)[l] != '\0' && (*abuf)[l] != '\n' && (*abuf)[l] != EOF)
+		l++;
+	if (fill_line(line, abuf, l) == -1)
 		return (-1);
-	if (len_fin == (int)ft_strlen(*abuffer))
+	if (l == (int)ft_strlen(*abuf))
 		return (0);
 	else
 	{
-		if (!(dup_line = ft_strdup(*abuffer + len_fin + 1)))
+		if (!(dup_line = ft_strdup(*abuf + l + 1)))
 			return (-1);
-		ft_memdel((void**)abuffer);
-		*abuffer = dup_line;
+		ft_memdel((void**)abuf);
+		*abuf = dup_line;
 		return (1);
 	}
 }
@@ -81,21 +82,14 @@ int				get_next_line(const int fd, char **line)
 	int				ret_read;
 	int				ret_truc;
 
-	if (line == NULL)
-		return (-1);
 	*line = NULL;
-	if (buffer == NULL)
-		if ((ret_read = fill_buffer(fd, &buffer)) == -1)
-			return (-1);
+	if (buffer == NULL && (ret_read = fill_buffer(fd, &buffer)) <= 0)
+		return (ret_read);
 	if (ft_strlen(buffer) == 0 && (ret_read = fill_buffer(fd, &buffer)) == 0)
 		return (0);
 	while ((ret_truc = ft_truc(line, &buffer)) == 0)
-	{
-		if ((ret_read = fill_buffer(fd, &buffer)) == -1)
-			return (-1);
-		else if (ret_read == 0)
-			return (1);
-	}
+		if ((ret_read = fill_buffer(fd, &buffer)) <= 0)
+			return (ret_read);
 	if (ret_truc == -1 || ret_read == -1)
 		return (-1);
 	return (1);

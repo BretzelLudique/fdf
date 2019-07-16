@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 05:51:14 by czhang            #+#    #+#             */
-/*   Updated: 2019/02/07 20:30:25 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/16 06:50:39 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
-# define BUFF_SIZE 5000
+# define BUFF_SIZE 1
 
 int	get_next_line(const int fd, char **line);
 

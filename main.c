@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:51:07 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:56:35 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/16 06:48:10 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,14 @@ static int		reterr(char const *s, t_tab *tab, t_tab *tab2)
 
 int				test_arg(int ac, char **av)
 {
-	if (ac == 1)
+	if (ac != 2 && ac != 4)
 	{
-		ft_putendl("Usage : ./fdf <filename> [angle alpha, angle omega]");
+		ft_putendl_fd("Usage : ./fdf <filename> [angle alpha, angle omega]", 2);
 		return (0);
 	}
-	if (ac == 2)
-		return (1);
-	if (ac == 4)
-	{
-		if (ft_atoi(av[2]) == 0 && ft_atoi(av[3]) == 0)
-			ft_putendl("warning : it appears you tried 0 and 0 as parameters");
-		return (1);
-	}
-	return (0);
+	if (ac == 4 && ft_atoi(av[2]) == 0 && ft_atoi(av[3]) == 0)
+		ft_putendl_fd("warning : both angles are set to 0", 2);
+	return (1);
 }
 
 int				main(int ac, char **av)
