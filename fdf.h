@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:46:42 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:35:34 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/23 02:01:15 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct	s_tab
 
 int				read_file(t_tab *tab, char *filename);
 void			ptit_free(t_tab *tab);
-t_tab			*new_tab(void **data, int x_size, int y_size);
+t_tab			*new_tab(int x_size, int y_size);
 int				substract_t_coord(t_tab *tab, t_coord min);
 int				divide_t_coord(t_tab *tab, double value);
 int				tab_coord(t_tab *tab_iso, t_tab *tab_int, double angle[2]);

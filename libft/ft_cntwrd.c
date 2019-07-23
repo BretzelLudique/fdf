@@ -6,31 +6,27 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/20 02:05:50 by czhang            #+#    #+#             */
-/*   Updated: 2018/11/21 03:06:09 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/23 05:51:39 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_cntwrd(char const *s, char c)
 {
 	int n;
-	int is_word;
 
+	if (!s || !(*s))
+		return (0);
 	n = 0;
-	if (*s++ != c)
-		n++;
 	while (*s)
 	{
-		is_word = 0;
-		while (*s && *s == c)
+		while (*s == c)
 			s++;
-		while (*s && *s != c)
+		if (*s != c)
 		{
-			s++;
-			is_word = 1;
+			n++;
+			while (*s && *s != c)
+				s++;
 		}
-		n += is_word;
-		if (!is_word && *s)
-			s++;
 	}
 	return (n);
 }

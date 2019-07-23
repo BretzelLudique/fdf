@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/08 21:21:12 by czhang            #+#    #+#             */
-/*   Updated: 2018/11/21 00:41:28 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/23 06:29:57 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@ int				ft_atoi(const char *str)
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
+		if (str[i++] == '-')
 			sign = -1;
-		i++;
-		if (str[i] == '-' || str[i] == '+')
-			return (0);
-	}
 	while (ft_isdigit(str[i]))
 	{
 		answer = 10 * answer + str[i++] - '0';

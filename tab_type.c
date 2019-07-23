@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:21:54 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:24:48 by czhang           ###   ########.fr       */
+/*   Updated: 2019/07/23 02:00:40 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ void	ptit_free(t_tab *tab)
 		return ;
 	if (!tab->data)
 	{
-		free(tab);
+		ft_memdel((void**)&tab);
 		return ;
 	}
 	i = -1;
-	while (++i < tab->y_size && tab->data[i])
-		free((tab->data)[i]);
-	free(tab);
+	while (++i < tab->y_size)
+		ft_memdel((void**)&(tab->data)[i]);
+	ft_memdel((void**)&tab);
 }
 
-t_tab	*new_tab(void **data, int x_size, int y_size)
+t_tab	*new_tab(int x_size, int y_size)
 {
 	t_tab	*tab;
 
@@ -38,8 +38,6 @@ t_tab	*new_tab(void **data, int x_size, int y_size)
 		ptit_free(tab);
 		return (0);
 	}
-	if (data)
-		tab->data = data;
 	tab->x_size = x_size;
 	tab->y_size = y_size;
 	return (tab);

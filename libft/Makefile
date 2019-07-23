@@ -6,7 +6,7 @@
 #    By: czhang <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 19:51:13 by czhang            #+#    #+#              #
-#    Updated: 2018/11/22 06:02:09 by czhang           ###   ########.fr        #
+#    Updated: 2019/07/23 05:41:55 by czhang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ SRC = $(FILE:%=%)
 
 OBJ = $(FILE:%.c=objs/%.o)
 
-FLAG = -Wall -Werror -Wextra
+FLAG = -Wall -Werror -Wextra #-g3 -fsanitize=address,undefined
 
 CC = gcc $(FLAG) $(INC)
 
