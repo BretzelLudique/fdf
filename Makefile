@@ -6,7 +6,7 @@
 #    By: czhang <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/07 19:51:13 by czhang            #+#    #+#              #
-#    Updated: 2019/09/11 18:12:18 by czhang           ###   ########.fr        #
+#    Updated: 2020/10/18 04:44:12 by czhang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME) : $(LIB) $(OBJ)
-	$(CC) -o $@ $(OBJ) -L libft/ -lft -lmlx -framework OpenGL -framework Appkit
+	$(CC) -o $@ $(OBJ) -L libft/ -lft -lmlx -lXext -lX11 -lm
 
 $(LIB) :
 	make -C libft/ all
