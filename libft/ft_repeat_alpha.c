@@ -1,28 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_repeat_alpha.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 18:54:23 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/29 15:31:45 by ccarole          ###   ########.fr       */
+/*   Created: 2019/04/26 19:34:35 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 15:14:45 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void				ft_putstr(char const *str)
+static int		ft_nb_repeat(char c)
 {
-	unsigned int	i;
+	int			rept;
+
+	rept = 1;
+	if (c >= 'a' && c <= 'z')
+		rept = c - 'a' + 1;
+	if (c >= 'A' && c <= 'Z')
+		rept = c - 'A' + 1;
+	return (rept);
+}
+
+int				ft_repeat_alpha(int ac, char **av)
+{
+	int			rept;
+	int			i;
 
 	i = 0;
-	if (str)
+	if (ac != 2)
 	{
-		while (str[i] != '\0')
+		ft_putchar('\n');
+	}
+	if (ac == 2)
+	{
+		while (av[1][i] != '\0')
 		{
-			ft_putchar(str[i]);
+			rept = (ft_nb_repeat(av[1][i]));
+			while (rept > 0)
+			{
+				ft_putchar(av[1][i]);
+				rept--;
+			}
 			i++;
 		}
+		ft_putchar('\n');
 	}
+	return (0);
 }

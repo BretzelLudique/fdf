@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_sort_param.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 17:28:38 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/11 16:47:28 by ccarole          ###   ########.fr       */
+/*   Created: 2019/04/23 16:43:20 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/25 16:19:02 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *dest, int c, size_t len)
+void	ft_sort_param(int ac, char **av)
 {
-	size_t	n;
+	int	j;
+	int	x;
 
-	n = 0;
-	while (n < len)
+	x = 1;
+	while (x < (ac - 1))
 	{
-		((unsigned char*)dest)[n] = (unsigned char)c;
-		n++;
+		j = ft_strcmp(av[x], av[x + 1]);
+		if (j > 0)
+		{
+			ft_swap(&av[x], &av[x + 1]);
+			x = 1;
+		}
+		else
+			x++;
 	}
-	return (dest);
 }

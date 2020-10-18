@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_recursive_power.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 17:28:38 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/11 16:47:28 by ccarole          ###   ########.fr       */
+/*   Created: 2019/04/25 21:00:10 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 13:42:29 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *dest, int c, size_t len)
+int		ft_recursive_power(int nb, int power)
 {
-	size_t	n;
-
-	n = 0;
-	while (n < len)
-	{
-		((unsigned char*)dest)[n] = (unsigned char)c;
-		n++;
-	}
-	return (dest);
+	if (power == 0)
+		return (1);
+	if (nb == 0 || power < 0)
+		return (0);
+	if (power == 1)
+		return (nb);
+	return (nb * ft_recursive_power(nb, (power - 1)));
 }

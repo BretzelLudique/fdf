@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/08 21:21:12 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 06:29:57 by czhang           ###   ########.fr       */
+/*   Created: 2019/04/11 16:53:13 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 16:12:18 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 
 int				ft_atoi(const char *str)
 {
-	int			i;
-	int			sign;
-	long long	answer;
+	long int	n;
+	int			signe;
 
-	answer = 0;
-	i = 0;
-	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-		if (str[i++] == '-')
-			sign = -1;
-	while (ft_isdigit(str[i]))
+	n = 0;
+	signe = 1;
+	while (*str == '\t' || *str == '\n' || *str == '\r' || *str == '\v'
+			|| *str == '\f' || *str == 32)
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		answer = 10 * answer + str[i++] - '0';
-		if (answer < 0)
-			return ((sign == -1) ? 0 : -1);
+		if (*str == '-')
+			signe = -1;
+		str++;
 	}
-	return ((int)answer * sign);
+	while (*str >= '0' && *str <= '9')
+	{
+		n = (n * 10) + (*str - 48);
+		str++;
+	}
+	return (signe * n);
 }

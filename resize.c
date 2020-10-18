@@ -6,13 +6,14 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 01:22:13 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 01:46:47 by czhang           ###   ########.fr       */
+/*   Updated: 2019/09/19 03:48:50 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
-t_coord	*update_range(t_tab *iso)
+t_coord		*update_range(t_tab *iso)
 {
 	static t_coord	range[2];
 	int				x;
@@ -39,7 +40,7 @@ t_coord	*update_range(t_tab *iso)
 	return (range);
 }
 
-int		reduce_coord(t_tab *iso, t_coord range[2])
+static int	reduce_coord(t_tab *iso, t_coord range[2])
 {
 	double coeff;
 
@@ -52,7 +53,7 @@ int		reduce_coord(t_tab *iso, t_coord range[2])
 	return (1);
 }
 
-int		extend_coord(t_tab *iso, t_coord range[2])
+static int	extend_coord(t_tab *iso, t_coord range[2])
 {
 	double	coeff;
 
@@ -60,12 +61,12 @@ int		extend_coord(t_tab *iso, t_coord range[2])
 	if (coeff < (double)HEIGHT / range[1].y)
 		coeff = (double)HEIGHT / range[1].y;
 	coeff = coeff - (int)coeff == 1 ? (int)coeff : (int)coeff - 1;
-	divide_t_coord(iso, 1 / coeff);
+	divide_t_coord(iso, 1 / (0.8 * coeff));
 	update_range(iso);
 	return (1);
 }
 
-int		resize_coord(t_tab *iso, t_coord range[2])
+int			resize_coord(t_tab *iso, t_coord range[2])
 {
 	substract_t_coord(iso, range[0]);
 	update_range(iso);

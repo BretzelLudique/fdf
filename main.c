@@ -6,12 +6,11 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 02:51:07 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 02:19:51 by czhang           ###   ########.fr       */
+/*   Updated: 2019/09/18 23:43:05 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <math.h>
 
 static t_mlx	create_mlx(void)
 {
@@ -65,10 +64,10 @@ int				main(int ac, char **av)
 	r = create_mlx();
 	resize_coord(iso, update_range(iso));
 	draw(iso, r);
+	ptit_free(tab);
 	mlx_put_image_to_window(r.mlx_ptr, r.win_ptr, r.img.img_ptr, 0, 0);
 	mlx_key_hook(r.win_ptr, interrupt, &r);
 	mlx_loop(r.mlx_ptr);
-	ptit_free(tab);
 	ptit_free(iso);
 	return (0);
 }

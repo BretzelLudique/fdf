@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_reverse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 17:28:38 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/11 16:47:28 by ccarole          ###   ########.fr       */
+/*   Created: 2019/04/25 20:35:46 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/25 20:42:04 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *dest, int c, size_t len)
+char				*ft_strrev(char *s)
 {
-	size_t	n;
+	unsigned int	i;
+	unsigned int	j;
+	char			tmp;
 
-	n = 0;
-	while (n < len)
+	i = 0;
+	j = ft_strlen(s) - 1;
+	if (s == NULL)
+		return (NULL);
+	while (i < j)
 	{
-		((unsigned char*)dest)[n] = (unsigned char)c;
-		n++;
+		tmp = s[i];
+		s[i] = s[j];
+		s[j] = tmp;
+		i++;
+		j--;
 	}
-	return (dest);
+	return (s);
 }

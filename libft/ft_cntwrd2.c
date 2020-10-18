@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   non_necessaire.c                                   :+:      :+:    :+:   */
+/*   ft_cntwrd2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/28 22:28:03 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/02 03:49:10 by czhang           ###   ########.fr       */
+/*   Created: 2019/07/25 05:49:10 by czhang            #+#    #+#             */
+/*   Updated: 2019/09/02 12:43:29 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-
-void		print_coord(t_tab *tab)
+int	ft_cntwrd2(char const *s, char c, char d)
 {
-	t_coord **coord;
-	int		x;
-	int		y;
+	int n;
 
-	coord = (t_coord **)tab->data;
-	y = -1;
-	while (++y < tab->y_size)
+	if (!s || !(*s))
+		return (0);
+	n = 0;
+	while (*s)
 	{
-		x = -1;
-		while (++x < tab->x_size)
+		while (*s == c || *s == d)
+			s++;
+		if (*s != '\0' && *s != c && *s != d)
 		{
-			ft_putstr("(");
-			ft_putnbr(coord[y][x].x);
-			ft_putstr("; ");
-			ft_putnbr(coord[y][x].y);
-			ft_putstr(")  ");
+			n++;
+			while (*s && *s != c && *s != d)
+				s++;
 		}
-		ft_putchar('\n');
 	}
+	return (n);
 }

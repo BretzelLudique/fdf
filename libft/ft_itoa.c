@@ -3,62 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/20 04:02:50 by czhang            #+#    #+#             */
-/*   Updated: 2018/11/20 05:22:29 by czhang           ###   ########.fr       */
+/*   Created: 2019/04/19 15:14:07 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/25 18:11:40 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static long	powdix(int len)
+static int			ft_len(int n)
 {
-	long	m;
+	unsigned int	len;
+	unsigned int	nb;
 
-	m = 1;
-	while (len--)
-		m *= 10;
-	return (m);
-}
-
-static int	nlen(int n)
-{
-	int len;
-
+	nb = n;
 	len = 0;
-	while (n)
+	if (n < 0)
 	{
-		n /= 10;
+		nb = (n * (-1));
+		len++;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
 		len++;
 	}
 	return (len);
 }
 
-char		*ft_itoa(int n)
+char				*ft_itoa(int n)
 {
-	int		len;
-	int		i;
-	long	vrain;
-	char	*str;
+	unsigned int	l;
+	char			*new;
+	unsigned int	nb;
 
-	len = (n <= 0) ? 1 : 0;
-	vrain = (long)n;
-	len += nlen(n);
-	if (!(str = (char*)malloc(sizeof(char) * (len + 1))))
+	nb = n;
+	l = ft_len(n);
+	if (!(new = (char*)malloc(sizeof(char) * l + 1)))
 		return (NULL);
-	str[len] = 0;
-	i = 0;
-	if (vrain < 0)
+	new[l--] = '\0';
+	if (nb == 0)
+		return (ft_strdup("0"));
+	if (n < 0)
 	{
-		str[i++] = '-';
-		len--;
-		vrain *= -1;
+		new[0] = '-';
+		nb = n * -1;
 	}
-	while (len--)
+	while (nb > 0)
 	{
-		str[i++] = vrain / powdix(len) + '0';
-		vrain = vrain - (vrain / powdix(len)) * powdix(len);
+		new[l] = (nb % 10) + 48;
+		nb = nb / 10;
+		l--;
 	}
-	return (str);
+	return (new);
 }

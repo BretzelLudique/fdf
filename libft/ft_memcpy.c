@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 07:17:42 by czhang            #+#    #+#             */
-/*   Updated: 2018/11/20 20:20:52 by czhang           ###   ########.fr       */
+/*   Created: 2019/04/11 20:29:42 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 18:49:57 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void			*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char		*dst0;
-	const char	*src0;
+	size_t		i;
+	char		*cp_dest;
+	char		*cp_src;
 
-	dst0 = (char*)dst;
-	src0 = (const char*)src;
-	while (n--)
-		*dst0++ = *src0++;
-	return (dst);
+	cp_dest = (char*)dst;
+	cp_src = (char*)src;
+	i = 0;
+	if (src <= dst)
+		ft_memmove(dst, src, n);
+	else
+		while (i < n)
+		{
+			cp_dest[i] = cp_src[i];
+			i++;
+		}
+	return (cp_dest);
 }

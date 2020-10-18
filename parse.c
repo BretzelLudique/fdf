@@ -6,131 +6,12 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:19:15 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 06:54:44 by czhang           ###   ########.fr       */
+/*   Updated: 2019/09/19 03:48:35 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	free_tabchar(char **tabchar)
-{
-	int	n;
-
-	if (!tabchar)
-		return ;
-	n = 0;
-	while (tabchar[n])
-		n++;
-	while (n--)
-		ft_memdel((void**)&tabchar[n]);
-	ft_memdel((void**)&tabchar);
-}
-
-static int	add_line_int(t_tab *tab, int i, char **tabline)
-{
-	int	*lineint;
-	int	x_size;
-
-	if (!tabline)
-		return (0);
-	x_size = 0;
-	while (tabline[x_size])
-		x_size++;
-	if (!tab->x_size)
-		tab->x_size = x_size;
-	if (tab->x_size != x_size)
-	{
-		ft_putendl_fd("Found wrong line length. Exiting.", 2);
-		return (0);
-	}
-	if (!(lineint = (int *)malloc(sizeof(int) * (x_size))))
-		return (0);
-	while (--x_size >= 0)
-		lineint[x_size] = ft_atoi(tabline[x_size]);
-	tab->data[i] = lineint;
-	return (1);
-}
-
-static char	**realloc_tabchar(char **tabchar, int new_size)
-{
-	char	**newtabchar;
-	int		i;
-
-	if (!(newtabchar = (char**)ft_memalloc(sizeof(char*) * new_size + 1)))
-	{
-		i = -1;
-		free_tabchar(tabchar);
-		return (0);
-	}
-	i = -1;
-	while (++i < new_size - 1)
-		newtabchar[i] = tabchar[i];
-	newtabchar[new_size - 1] = 0;
-	newtabchar[new_size] = 0;
-	i = -1;
-	ft_memdel((void**)&tabchar);
-	return (newtabchar);
-}
-
-static char	**get_data(int fd, t_tab *tab)
-{
-	int		n;
-	char	**tabchar;
-	char	*line;
-
-	n = 0;
-	if (!(tabchar = (char**)ft_memalloc(sizeof(char*))))
-		return (0);
-	while (get_next_line(fd, &line) > 0)
-	{
-		n++;
-		if (!(tabchar = realloc_tabchar(tabchar, n)))
-			return (0);
-		tabchar[n - 1] = ft_strdup(line);
-		ft_memdel((void**)&line);
-	}
-	if (!tabchar[0] || ft_strlen(tabchar[0]) == 0)
-	{
-		free_tabchar(tabchar);
-		ft_putendl_fd("No data found.", 2);
-		return (0);
-	}
-	tab->y_size = n;
-	if (!(tab->data = (void **)malloc(sizeof(int *) * n)))
-	{
-		free_tabchar(tabchar);
-		return (0);
-	}
-	return (tabchar);
-}
-
-int			read_file(t_tab *tab, char *filename)
-{
-	char	**tabchar;
-	int		y;
-	int		fd;
-
-	if ((fd = open(filename, O_RDONLY)) < 0)
-	{
-		ft_putstr_fd("No file ", 2);
-		ft_putendl_fd(filename, 2);
-		return (0);
-	}
-	if (!(tabchar = get_data(fd, tab)))
-		return (0);
-	y = -1;
-	while (tabchar && tabchar[++y])
-		if (!(add_line_int(tab, y, ft_strsplit(tabchar[y], ' '))))
-		{
-			tab->y_size = y;
-			free_tabchar(tabchar);
-			close(fd);
-			return (0);
-		}
-	free_tabchar(tabchar);
-	close(fd);
-	return (1);
-}
 static char	*extend_str(char *str, char *end, int *strlen)
 {
 	char	*newstr;
@@ -141,23 +22,21 @@ static char	*extend_str(char *str, char *end, int *strlen)
 	endlen = ft_strlen(end);
 	totalsize = *strlen + endlen + 2;
 	if (!(newstr = (char*)ft_strnew(sizeof(char) * (*strlen + endlen + 2))))
-	{
-		ft_memdel((void**)&str);
-		ft_memdel((void**)&end);
 		return (0);
+	if (*strlen)
+	{
+		ft_strncpy(newstr, str, *strlen);
+		newstr[(*strlen)++] = '\n';
 	}
-	ft_strcpy(newstr, str);
-	newstr[(*strlen)++] = '\n';
 	i = -1;
 	while (++i < endlen)
 		newstr[(*strlen)++] = end[i];
-	newstr[(*strlen)++] = 0;
+	newstr[(*strlen)] = '\0';
 	ft_memdel((void**)&str);
-	ft_memdel((void**)&end);
 	return (newstr);
 }
 
-static char	*get_data(int fd, t_tab *tab)
+static char	*get_str(int fd, t_tab *tab)
 {
 	int		n;
 	int		strlen;
@@ -166,61 +45,95 @@ static char	*get_data(int fd, t_tab *tab)
 
 	strlen = 0;
 	n = 0;
+	if (!(str = ft_strnew(0)))
+		return (0);
 	while (get_next_line(fd, &line) > 0)
 	{
 		n++;
 		if (!(str = extend_str(str, line, &strlen)))
+		{
+			ft_memdel((void**)&line);
 			return (0);
+		}
+		ft_memdel((void**)&line);
 	}
-	if (!str || ft_strlen(str) == 0)
+	if (!(tab->y_size = n) || !str || ft_strlen(str) == 0)
 	{
 		ft_putendl_fd("No data found.", 2);
-		ft_memdel((void**)&str);
 		return (0);
 	}
-	tab->y_size = n;
 	return (str);
 }
 
-int			get_tabint(t_tab *tab, char *str)
+static int	add_line_int(t_tab *tab, int y, char *str, int *strpos)
+{
+	int	*lineint;
+	int	x;
+
+	x = 0;
+	while (str[*strpos + x] && str[*strpos + x] != '\n')
+		x++;
+	if (tab->x_size != ft_cntwrdn(str + *strpos, ' ', '\n', x))
+		return (reterr_xsize());
+	if (!(lineint = (int *)ft_memalloc(sizeof(int) * (tab->x_size))))
+		return (0);
+	x = -1;
+	while (++x < tab->x_size)
+	{
+		while (str[*strpos] == ' ')
+			(*strpos)++;
+		lineint[x] = ft_atoi(str + *strpos);
+		while (str[*strpos] && str[*strpos] != ' ' && str[*strpos] != '\n')
+			(*strpos)++;
+	}
+	while (str[*strpos] == ' ' || str[*strpos] == '\n')
+		(*strpos)++;
+	tab->data[y] = (void*)lineint;
+	return (1);
+}
+
+static int	get_tabint(t_tab *tab, char *str)
 {
 	int	i;
-	int	j;
+	int	y;
 	int	tabsize;
-	int	*data;
 
-	tabsize = ft_cntwrd(str, ' ');
-	if (!(data = (int*)ft_memalloc(sizeof(int) * tabsize)))
+	tabsize = ft_cntwrd2(str, ' ', '\n');
+	tab->x_size = tabsize / tab->y_size;
+	if (tab->x_size * tab->y_size != tabsize)
+	{
+		tab->y_size = 0;
+		ft_putendl_fd("Found wrong line length. Exiting.", 2);
+		return (0);
+	}
+	if (!(tab->data = (void**)ft_memalloc(sizeof(int*) * tab->y_size)))
 		return (0);
 	i = 0;
-	j = 0;
-	while (str[i])
+	y = -1;
+	while (++y < tab->y_size && str[i])
 	{
-		while (str[i] == ' ')
-			i++;
-		data[j++] = ft_atoi(str + i);
-		while (str[i] && str[i] != ' ')
-			i++;
+		if (!(add_line_int(tab, y, str, &i)))
+		{
+			tab->y_size = y;
+			return (0);
+		}
 	}
-	tab->data = data;
 	return (1);
 }
 
 int			read_file(t_tab *tab, char *filename)
 {
 	char	*str;
-	int		y;
 	int		fd;
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
 		ft_putstr_fd("No file ", 2);
 		ft_putendl_fd(filename, 2);
+		close(fd);
 		return (0);
 	}
-	if (!(str = get_data(fd, tab)))
-		return (0);
-	if (!get_tabint(tab, str))
+	if (!(str = get_str(fd, tab)) || !get_tabint(tab, str))
 	{
 		ft_memdel((void**)&str);
 		close(fd);

@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 17:28:38 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/11 16:47:28 by ccarole          ###   ########.fr       */
+/*   Created: 2019/04/29 14:03:32 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 15:13:51 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *dest, int c, size_t len)
+void		ft_putstr_len(char *s, int len)
 {
-	size_t	n;
-
-	n = 0;
-	while (n < len)
-	{
-		((unsigned char*)dest)[n] = (unsigned char)c;
-		n++;
-	}
-	return (dest);
+	write(1, s, len);
 }

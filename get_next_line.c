@@ -3,94 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/03 15:16:53 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/16 01:16:40 by czhang           ###   ########.fr       */
+/*   Created: 2019/05/02 13:03:45 by ccarole           #+#    #+#             */
+/*   Updated: 2019/05/18 14:16:03 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "stdio.h"
 
-static int		fill_line(char **line, char **abuffer, int len_fin)
+int					ft_read_file(int fd, char **str)
 {
-	char	*dup_line;
-	int		len;
-	int		i;
+	int				ret;
+	char			tmp[BUFF_SIZE + 1];
+	char			*ptr;
 
-	len = 0;
-	if (*line == NULL || **line == '\0')
-	{
-		if (!(*line = (char*)ft_memalloc(sizeof(char) * (len_fin + 1))))
-			return (-1);
-	}
-	else
-	{
-		len = ft_strlen(*line);
-		dup_line = ft_strdup(*line);
-		ft_memdel((void**)line);
-		if (!(*line = (char*)ft_memalloc(sizeof(char) * (len + len_fin + 1))))
-			return (-1);
-		ft_strcpy(*line, dup_line);
-		ft_memdel((void**)&dup_line);
-	}
-	i = -1;
-	while (++i < len_fin)
-		(*line)[len + i] = (*abuffer)[i];
-	return (0);
-}
-
-static int		ft_truc(char **line, char **abuf)
-{
-	char	*dup_line;
-	int		l;
-
-	l = 0;
-	while ((*abuf)[l] != '\0' && (*abuf)[l] != '\n' && (*abuf)[l] != EOF)
-		l++;
-	if (fill_line(line, abuf, l) == -1)
-		return (-1);
-	if (l == (int)ft_strlen(*abuf))
+	if ((ret = read(fd, tmp, BUFF_SIZE)) == 0)
 		return (0);
-	else
-	{
-		if (!(dup_line = ft_strdup(*abuf + l + 1)))
-			return (-1);
-		ft_memdel((void**)abuf);
-		*abuf = dup_line;
-		return (1);
-	}
-}
-
-static int		fill_buffer(const int fd, char **abuffer)
-{
-	int	ret;
-
-	if (*abuffer != NULL)
-		ft_memdel((void**)abuffer);
-	if (!(*abuffer = (char*)ft_memalloc(sizeof(char) * (BUFF_SIZE + 1))))
+	ptr = *str;
+	if (ret < 0)
 		return (-1);
-	ret = read(fd, *abuffer, BUFF_SIZE);
-	(*abuffer)[BUFF_SIZE] = '\0';
+	tmp[ret] = '\0';
+	if (!(*str = ft_strjoin(*str, tmp)))
+		return (-1);
+	ft_strdel(&ptr);
+	if (*str == '\0')
+		return (0);
 	return (ret);
 }
 
-int				get_next_line(const int fd, char **line)
+int					get_line(char **line, char **str)
 {
-	static char		*buffer;
-	int				ret_read;
-	int				ret_truc;
+	unsigned int	i;
+	char			*ptr;
+	char			*tmp;
 
-	*line = NULL;
-	if (buffer == NULL && (ret_read = fill_buffer(fd, &buffer)) <= 0)
-		return (ret_read);
-	if (ft_strlen(buffer) == 0 && (ret_read = fill_buffer(fd, &buffer)) == 0)
-		return (0);
-	while ((ret_truc = ft_truc(line, &buffer)) == 0)
-		if ((ret_read = fill_buffer(fd, &buffer)) <= 0)
-			return (ret_read);
-	if (ret_truc == -1 || ret_read == -1)
+	ptr = *str;
+	i = ft_strlen(*str);
+	tmp = ft_strchr(*str, '\n');
+	tmp[0] = '\0';
+	if (!(*line = ft_strdup(*str)))
 		return (-1);
+	if (!(*str = ft_strsub(*str, ft_strlen(*line) + 1, (i - ft_strlen(*line)))))
+		return (-1);
+	ft_strdel(&ptr);
 	return (1);
+}
+
+int					get_line_eof(char **line, char **str)
+{
+	if (!(*line = ft_strdup(*str)))
+		return (-1);
+	ft_strclr(*str);
+	return (1);
+}
+
+int					get_next_line(int fd, char **line)
+{
+	static char		*str = 0;
+	int				ret;
+
+	if (fd < 0 || !line)
+		return (-1);
+	ret = 1;
+	while (ret > 0)
+	{
+		if ((ft_strchr(str, '\n') != NULL) && str != '\0')
+			return (get_line(line, &str));
+		if (ft_strchr(str, '\n') == NULL && ret != 0)
+		{
+			ret = ft_read_file(fd, &str);
+			if (ret == 0 && (str == 0 || *str == '\0'))
+			{
+				ft_strdel(&str);
+				return (0);
+			}
+			if (ft_strchr(str, '\n') == NULL && str && ret == 0)
+				return (get_line_eof(line, &str));
+			if (ret == -1)
+				return (-1);
+		}
+	}
+	return (0);
 }

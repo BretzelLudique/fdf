@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 17:28:38 by ccarole           #+#    #+#             */
-/*   Updated: 2019/04/11 16:47:28 by ccarole          ###   ########.fr       */
+/*   Created: 2019/06/04 10:46:41 by ccarole           #+#    #+#             */
+/*   Updated: 2019/06/04 10:49:27 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *dest, int c, size_t len)
+int		ft_sqrt(int nb)
 {
-	size_t	n;
+	int	a;
 
-	n = 0;
-	while (n < len)
-	{
-		((unsigned char*)dest)[n] = (unsigned char)c;
-		n++;
-	}
-	return (dest);
+	a = 1;
+	if (nb > 2147395600)
+		return (0);
+	if (nb <= 0)
+		return (0);
+	while (a * a < nb)
+		a++;
+	if (a * a == nb)
+		return (a);
+	else
+		return (0);
 }

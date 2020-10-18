@@ -6,12 +6,11 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 02:24:32 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/05 02:26:50 by czhang           ###   ########.fr       */
+/*   Updated: 2019/09/02 14:52:58 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <math.h>
 
 static t_coord	get_coord(int x, int y, int z, double angle[2])
 {
@@ -29,7 +28,7 @@ static int		add_line_coord(t_tab *iso, int y, t_tab *tint, double angle[2])
 	int		*line_int;
 	int		x;
 
-	if (!(line_iso = (t_coord *)malloc(sizeof(t_coord) * tint->x_size)))
+	if (!(line_iso = (t_coord *)ft_memalloc(sizeof(t_coord) * tint->x_size)))
 		return (0);
 	line_int = (int *)tint->data[y];
 	x = -1;
@@ -39,19 +38,19 @@ static int		add_line_coord(t_tab *iso, int y, t_tab *tint, double angle[2])
 	return (1);
 }
 
-int				tab_coord(t_tab *tab_iso, t_tab *tint, double angle[2])
+int				tab_coord(t_tab *tiso, t_tab *tint, double angle[2])
 {
 	int		y;
 
 	if (!tint || !tint->data)
 		return (0);
-	if (!(tab_iso->data = (void **)malloc(sizeof(t_coord *) * tint->y_size)))
+	if (!(tiso->data = (void **)ft_memalloc(sizeof(t_coord *) * tint->y_size)))
 		return (0);
 	y = 0;
 	while (y < tint->y_size)
-		if (!(add_line_coord(tab_iso, y++, tint, angle)))
+		if (!(add_line_coord(tiso, y++, tint, angle)))
 		{
-			tab_iso->y_size = y;
+			tiso->y_size = y;
 			return (0);
 		}
 	return (1);

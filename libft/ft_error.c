@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_cntwrd.c                                        :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ccarole <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/20 02:05:50 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 05:51:39 by czhang           ###   ########.fr       */
+/*   Created: 2019/04/29 13:50:06 by ccarole           #+#    #+#             */
+/*   Updated: 2019/04/29 13:53:47 by ccarole          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_cntwrd(char const *s, char c)
-{
-	int n;
+#include "libft.h"
 
-	if (!s || !(*s))
-		return (0);
-	n = 0;
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		if (*s != c)
-		{
-			n++;
-			while (*s && *s != c)
-				s++;
-		}
-	}
-	return (n);
+void	ft_error(char *s)
+{
+	ft_putstr_fd(s, 2);
 }

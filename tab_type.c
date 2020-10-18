@@ -6,7 +6,7 @@
 /*   By: czhang <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 04:21:54 by czhang            #+#    #+#             */
-/*   Updated: 2019/07/23 02:00:40 by czhang           ###   ########.fr       */
+/*   Updated: 2019/09/02 14:45:00 by czhang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ptit_free(t_tab *tab)
 {
-	int	i;
-
 	if (!tab)
 		return ;
 	if (!tab->data)
@@ -23,17 +21,23 @@ void	ptit_free(t_tab *tab)
 		ft_memdel((void**)&tab);
 		return ;
 	}
-	i = -1;
-	while (++i < tab->y_size)
-		ft_memdel((void**)&(tab->data)[i]);
+	while (tab->y_size--)
+		ft_memdel((void**)&(tab->data[tab->y_size]));
+	ft_memdel((void**)&(tab->data));
 	ft_memdel((void**)&tab);
+}
+
+int		reterr_xsize(void)
+{
+	ft_putendl_fd("Found wrong line length. Exiting.", 2);
+	return (0);
 }
 
 t_tab	*new_tab(int x_size, int y_size)
 {
 	t_tab	*tab;
 
-	if (!(tab = (t_tab *)malloc(sizeof(t_tab))))
+	if (!(tab = (t_tab *)ft_memalloc(sizeof(t_tab))))
 	{
 		ptit_free(tab);
 		return (0);
